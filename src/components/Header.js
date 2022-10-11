@@ -28,7 +28,7 @@ export default function Header() {
 
             <li>
               <a
-                href="https://twitter.com/DidemKkkaraasl1"
+                href="https://twitter.com/furkancelik32"
                 target="_blank"
                 rel="noreferrer">
                 <svg
@@ -45,7 +45,7 @@ export default function Header() {
 
             <li>
               <a
-                href="https://discord.gg/rAFdkCwn"
+                href="https://www.linkedin.com/in/furkancelik32/"
                 target="_blank"
                 rel="noreferrer">
                 <svg
@@ -62,7 +62,7 @@ export default function Header() {
 
             <li>
               <a
-                href="https://discord.gg/rAFdkCwn"
+                href="https://github.com/furkancelik"
                 target="_blank"
                 rel="noreferrer">
                 <svg
