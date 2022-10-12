@@ -1,6 +1,38 @@
-import React from "react";
+import { async } from "q";
+import React, { useState, useEffect } from "react";
 
-export default function Header() {
+import { connectWallet, getCurrentWalletConnected } from "../utils/interact";
+
+export default function Header({ setStatus }) {
+  const [walletAddress, setWalletAddress] = useState("");
+
+  async function onConnectWallet() {
+    const walletResponse = await connectWallet();
+    setWalletAddress(walletResponse.address);
+    setStatus(walletResponse.status);
+  }
+
+  useEffect(() => {
+    (async () => {
+      const { address, status } = await getCurrentWalletConnected();
+      setWalletAddress(address);
+      setStatus(status);
+      addWalletListener();
+    })();
+  }, []);
+
+  const addWalletListener = async () => {
+    if (window.ethereum) {
+      window.ethereum.on("accountsChanged", async (accounts) => {
+        if (accounts.length > 0) {
+          setWalletAddress(accounts[0]);
+        } else {
+          setWalletAddress("");
+        }
+      });
+    }
+  };
+
   return (
     <header className="sticky inset-x-0 top-0 z-10 h-20 min-w-full text-white border-b border-red-800 bg-primary backdrop-filter backdrop-blur-lg bg-opacity-30">
       <div className="flex items-center container mx-auto max-w-7xl justify-between h-full">
@@ -78,8 +110,14 @@ export default function Header() {
             </li>
 
             <li className="hover:text-secondary hover:border-secondary cursor-pointer px-4 py-2 font-extrabold text-white border border-white rounded-md">
-              <a className="" id="walletButton">
-                <span>Connect Wallet</span>
+              <a onClick={onConnectWallet}>
+                {walletAddress.length > 0 ? (
+                  `Connected ${walletAddress
+                    .toString()
+                    .substr(0, 4)}...${walletAddress.toString().substr(-4)}`
+                ) : (
+                  <span>Connect Wallet</span>
+                )}
               </a>
 
               {/* <a

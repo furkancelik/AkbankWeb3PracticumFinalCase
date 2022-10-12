@@ -1,6 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getMaxMintAmount } from "../utils/interact";
+export default function Mintable({ status }) {
+  const [count, setCount] = useState(1);
+  const [maxMintAmount, setMaxMintAmount] = useState(1);
 
-export default function Mintable() {
+  useEffect(() => {
+    (async () => {
+      setMaxMintAmount(await getMaxMintAmount());
+    })();
+  }, []);
+
   return (
     <>
       <div className="flex flex-col items-center">
@@ -16,25 +25,12 @@ export default function Mintable() {
         </p>
 
         <div className="flex items-center mt-6 text-3xl font-bold text-gray-200">
-          <button className="button" onClick={() => {}}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-6 h-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M12 4v16m8-8H4"
-              />
-            </svg>
-          </button>
-
-          <h2 className="mx-8">10</h2>
-
-          <button className="button" onClick={() => {}}>
+          <button
+            disabled={count === 1}
+            className="button disabled:opacity-40"
+            onClick={() => {
+              setCount(count - 1 < 1 ? 1 : count - 1);
+            }}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="w-6 h-6"
@@ -46,6 +42,27 @@ export default function Mintable() {
                 strokeLinejoin="round"
                 strokeWidth="2"
                 d="M20 12H4"
+              />
+            </svg>
+          </button>
+          <h2 className="mx-8">{count}</h2>
+          <button
+            disabled={count === maxMintAmount}
+            className="button disabled:opacity-40"
+            onClick={() => {
+              setCount(count + 1 >= maxMintAmount ? maxMintAmount : count + 1);
+            }}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-6 h-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 4v16m8-8H4"
               />
             </svg>
           </button>
@@ -61,9 +78,11 @@ export default function Mintable() {
         </button>
       </div>
 
-      <div className="flex items-center justify-center mx-15 px-4 py-4 mt-8 font-semibold text-white bg-red-400 rounded-md ">
-        Hataları göster
-      </div>
+      {status && (
+        <div className="flex items-center justify-center mx-15 px-4 py-4 mt-8 font-semibold text-white bg-red-400 rounded-md ">
+          {status}
+        </div>
+      )}
     </>
   );
 }
