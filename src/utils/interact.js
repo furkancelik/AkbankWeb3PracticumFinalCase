@@ -82,3 +82,12 @@ export const getMaxMintAmount = async () => {
   const maxMintAmount = await nftContract.methods.maxTokenPurchase().call();
   return maxMintAmount;
 };
+
+export const getTotalSupply = async () => {
+  return await nftContract.methods.totalSupply().call();
+};
+
+export const getNftPrice = async () => {
+  const tokenPriceWei = await nftContract.methods.tokenPrice().call();
+  return web3.utils.fromWei(tokenPriceWei, "ether");
+};

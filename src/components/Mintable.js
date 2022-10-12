@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { getMaxMintAmount } from "../utils/interact";
+import {
+  getMaxMintAmount,
+  getTotalSupply,
+  getNftPrice,
+} from "../utils/interact";
 export default function Mintable({ status }) {
   const [count, setCount] = useState(1);
   const [maxMintAmount, setMaxMintAmount] = useState(1);
+  const [totalSupply, setTotalSupply] = useState(0);
+  const [nftPrice, setNftPrice] = useState("Loading...");
 
   useEffect(() => {
     (async () => {
       setMaxMintAmount(await getMaxMintAmount());
+      setTotalSupply(await getTotalSupply());
+      setNftPrice(await getNftPrice());
     })();
   }, []);
 
@@ -21,7 +29,7 @@ export default function Mintable({ status }) {
         />
 
         <p className="bg-gray-100 rounded-md text-gray-800 font-extrabold text-lg my-4 py-1 px-3">
-          <span className="text-primary">10</span> / 40
+          <span className="text-primary">{totalSupply}</span> / 40
         </p>
 
         <div className="flex items-center mt-6 text-3xl font-bold text-gray-200">
@@ -69,7 +77,11 @@ export default function Mintable({ status }) {
         </div>
 
         <h4 className="mt-2 font-semibold text-center text-white">
-          1 ETH <span className="text-sm text-gray-300"> + GAS</span>
+          {nftPrice} ETH{" "}
+          <span className="text-sm text-gray-300">
+            {" "}
+            + <small>GAS Fee</small>
+          </span>
         </h4>
 
         {/* Mint Button */}
