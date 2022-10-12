@@ -14,14 +14,19 @@ export default function Mintable({ status, setStatus }) {
   useEffect(() => {
     (async () => {
       setMaxMintAmount(await getMaxMintAmount());
-      setTotalSupply(await getTotalSupply());
+      updateTotalSupply();
       setNftPrice(await getNftPrice());
     })();
   }, []);
 
+  async function updateTotalSupply() {
+    setTotalSupply(await getTotalSupply());
+  }
+
   const mintNftButton = async () => {
     const response = await mintNft(count);
     setStatus(response.status);
+    updateTotalSupply();
   };
 
   return (
