@@ -43,7 +43,10 @@ export default function Header({ setStatus }) {
         <nav aria-label="Main Menu">
           <ul className="flex items-center space-x-8">
             <li>
-              <a href="https://opensea.io" target="_blank" rel="noreferrer">
+              <a
+                href="https://testnets.opensea.io/assets/goerli/0x5a38bD2ff320356E47968535F3a8518ebD11aC16/"
+                target="_blank"
+                rel="noreferrer">
                 <svg
                   className="w-7 h-7"
                   viewBox="0 0 90 90"

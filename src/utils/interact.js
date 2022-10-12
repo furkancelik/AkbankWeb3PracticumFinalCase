@@ -111,10 +111,6 @@ export const mintNft = async (mintAmount) => {
     };
   }
 
-  console.log(
-    parseInt(web3.utils.toWei("0.0019", "ether") * mintAmount).toString(16),
-    parseInt(web3.utils.toWei("0.0019", "ether") * mintAmount)
-  );
   const transactionParameters = {
     to: contractAddress,
     from: window.ethereum.selectedAddress,
