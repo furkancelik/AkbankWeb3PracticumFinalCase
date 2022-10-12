@@ -1,6 +1,4 @@
-import { async } from "q";
 import React, { useState, useEffect } from "react";
-
 import { connectWallet, getCurrentWalletConnected } from "../utils/interact";
 
 export default function Header({ setStatus }) {

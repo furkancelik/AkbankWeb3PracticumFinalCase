@@ -54,7 +54,11 @@ export const getCurrentWalletConnected = async () => {
           address: addressArray[0],
         };
       } else {
-        return { status: "Adres Yok!", address: "" };
+        return {
+          status:
+            "Cüzdan bağlı değil! Connect Wallet butonuyla cüzdanınızı bağlayabilirsiniz.",
+          address: "",
+        };
       }
     } catch (error) {
       return {
@@ -90,4 +94,50 @@ export const getTotalSupply = async () => {
 export const getNftPrice = async () => {
   const tokenPriceWei = await nftContract.methods.tokenPrice().call();
   return web3.utils.fromWei(tokenPriceWei, "ether");
+};
+
+export const mintNft = async (mintAmount) => {
+  if (!window.ethereum.selectedAddress) {
+    return {
+      success: false,
+      status: (
+        <p>
+          <a target={"_blank"} href="https://metamask.io/download.html">
+            Metamask yüklü olmayabilir! Yüklemek için tıklayınız. Yada
+            cüzdanınızı bağladığınıza emin olunuz.
+          </a>
+        </p>
+      ),
+    };
+  }
+
+  console.log(
+    parseInt(web3.utils.toWei("0.0019", "ether") * mintAmount).toString(16),
+    parseInt(web3.utils.toWei("0.0019", "ether") * mintAmount)
+  );
+  const transactionParameters = {
+    to: contractAddress,
+    from: window.ethereum.selectedAddress,
+    value: parseInt(web3.utils.toWei("0.0019", "ether") * mintAmount).toString(
+      16
+    ),
+    gasLimit: "0",
+    data: nftContract.methods.mintNFT(mintAmount).encodeABI(),
+  };
+
+  try {
+    const txHas = await window.ethereum.request({
+      method: "eth_sendTransaction",
+      params: [transactionParameters],
+    });
+    return {
+      success: true,
+      status: `Transaction'u Etherscan üzerinden kontrol et: https://goerli.etherscan.io/tx/${txHas}`,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      status: `Beklenmedik bir hata meydana geldi:${error.message}`,
+    };
+  }
 };

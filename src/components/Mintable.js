@@ -3,8 +3,9 @@ import {
   getMaxMintAmount,
   getTotalSupply,
   getNftPrice,
+  mintNft,
 } from "../utils/interact";
-export default function Mintable({ status }) {
+export default function Mintable({ status, setStatus }) {
   const [count, setCount] = useState(1);
   const [maxMintAmount, setMaxMintAmount] = useState(1);
   const [totalSupply, setTotalSupply] = useState(0);
@@ -17,6 +18,11 @@ export default function Mintable({ status }) {
       setNftPrice(await getNftPrice());
     })();
   }, []);
+
+  const mintNftButton = async () => {
+    const response = await mintNft(count);
+    setStatus(response.status);
+  };
 
   return (
     <>
@@ -85,13 +91,13 @@ export default function Mintable({ status }) {
         </h4>
 
         {/* Mint Button */}
-        <button className="mint-button" onClick={() => {}}>
-          Mint now!
+        <button className="mint-button" onClick={() => mintNftButton()}>
+          HEMEN Mintle
         </button>
       </div>
 
       {status && (
-        <div className="flex items-center justify-center mx-15 px-4 py-4 mt-8 font-semibold text-white bg-red-400 rounded-md ">
+        <div className="flex items-center justify-center mx-15 px-4 py-4 mt-8 font-semibold text-white bg-red-400 rounded-md text-center ">
           {status}
         </div>
       )}
