@@ -50,7 +50,7 @@ Projeyi çalıştırabilirsiniz.
 
 ---
 
-##Nasıl NFT Mintlerim?
+## Nasıl NFT Mintlerim?
 
 [Bu bağlantı
 ](https://akbankweb3practicum.netlify.app/), üzerinden canlı önizlemeyi açabilirsiniz.
